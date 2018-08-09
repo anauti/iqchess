@@ -1,0 +1,53 @@
+import sys, pygame, os
+pygame.init()
+
+# class Disc(pygame.sprite.Sprite):
+#     def __init__(self, loc):
+#         self.image = pygame.image.load('red.png')
+#         self.rect = self.image.get_rect
+#         screen = pygame.display.get_surface()
+#         self.area = screen.get_rect()
+#         self.rect = loc
+
+#     def update(self):
+#         self.rect = self.rect.move([0, 1])
+
+        
+size = width, height = 320, 240
+screen = pygame.display.set_mode((640, 480))
+background_color = 0, 0, 255
+
+# red = pygame.image.load('red.png')
+# yellow = pygame.image.load('yellow.png')
+# red = pygame.transform.scale(red, (50, 50))
+# yellow = pygame.transform.scale(yellow, (50, 50))
+# red_rect = red.get_rect()
+# yellow_rect = yellow.get_rect()
+
+font = pygame.font.Font(None, 32)
+one = font.render('1', 1, (0, 0, 0))
+two = font.render('2', 1, (0, 0, 0))
+three = font.render('3', 1, (0, 0, 0))
+four = font.render('4', 1, (0, 0, 0))
+five = font.render('5', 1, (0, 0, 0))
+six = font.render('6', 1, (0, 0, 0))
+seven = font.render('7', 1, (0, 0, 0))
+
+while True:
+    coord = [50, 100]
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_1:
+                coord[1] += 50
+        screen.fill(background_color)
+        pygame.draw.circle(screen, (255,0,0), coord, 25, 0)
+        screen.blit(one, (45, 50))
+        screen.blit(two, (135, 50))
+        screen.blit(three, (225, 50))
+        screen.blit(four, (315, 50))
+        screen.blit(five, (405, 50))
+        screen.blit(six, (495, 50))
+        screen.blit(seven, (585, 50))
+        pygame.display.flip()
+        
