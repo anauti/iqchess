@@ -104,21 +104,30 @@ coords = []
 # 0: empty, 1: red disk, 2: yellow disk
 grid = np.zeros((6, 7), dtype='int')
 game_over = False
+menu = False
+menu_round = False
 
 # Actual gameplay
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                if game_over:
+        if menu:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_1:
+                    menu = False
+            if drawn_once: continue
+        drawn_once = True
+        if game_over:
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
                     game_over = False
+                    menu = True
                     coords = []
                     grid = np.zeros((6, 7), dtype='int')
                     heights = np.zeros(7, dtype=np.int8)
-        if game_over:
-            continue
+                    menu_round = True
+            if not menu_round: continue
         # Adding disks to each column
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_1:
@@ -138,10 +147,8 @@ while True:
         # What to do if game is over (by win or draw)
         if game_over or len(coords) == 6*7:
             player = (len(coords)-1)%2
-            if player == 0:
-                color = (255,0,0)
-            else:
-                color = (255,255,0)
+            if player == 0: color = (255,0,0)
+            else: color = (255,255,0)
             w_font = pygame.font.Font(None, 100)
             win_text = 'Pelaaja {} voitti!'.format(player+1)
             if len(coords) == 6*7:
@@ -182,6 +189,14 @@ while True:
             screen.blit(vuoro1, (45+70, 10))
         else:
             screen.blit(vuoro2, (45+70, 10))
-            
+        # Drawing menu screen
+        if menu_round:
+            menu_round = False
+            title_font = pygame.font.Font(None, 100)
+            m_font = pygame.font.Font(None, 50)
+            title_text = title_font.render('Valikko', 1, (255, 255, 255))
+            m_text = m_font.render('1: Pelaa kaveria vastaan', 1, (255,255,255))
+            screen.blit(m_text, (140, 300))
+            screen.blit(title_text, (140, 200))
         pygame.display.flip()
     
